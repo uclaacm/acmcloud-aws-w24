@@ -60,4 +60,5 @@ server {
 After completing these steps, return to the EC2 instance console page and navigate to the **private IP** to view the deployed site. Be sure to use `http` instead of `https` since we have not set up an SSL Certificate. 
 
 ## Additional Resources
+* Node + Vite [quickstart](https://vitejs.dev/guide/)
 * Installing Node on EC2 [documentation](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-up-node-on-ec2-instance.html)
