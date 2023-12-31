@@ -1,0 +1,1 @@
+# Week 2: Management and Scaling with Elastic Beanstalk
