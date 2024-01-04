@@ -45,8 +45,8 @@ let DATABASE = {
     }
 }
 
-export function setUser(userId, userDetails){
-    if (Object.keys(DATABASE).includes(currId)){
+export function updateUser(userId, userDetails){
+    if (Object.keys(DATABASE).includes(userId)){
         DATABASE[userId] = userDetails
     }
 }

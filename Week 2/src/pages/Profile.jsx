@@ -1,6 +1,6 @@
 import PersonIcon from '@mui/icons-material/Person';
 import FriendTiles from '../components/friendTiles';
-import { getUser, setUser } from '../profiles';
+import { getUser, updateUser } from '../profiles';
 import { useAuth } from "../Auth";
 import KeyValuePairsDisplay from '../components/keyValue';
 import { useState } from 'react';
@@ -8,21 +8,21 @@ import { useState } from 'react';
 function Profile({ dimensions }) {
     const { setUser, user } = useAuth();
     const [currUser, setCurrUser] = useState(getUser(user));
-    const [currDetails, setCurrDetails] = useState(getUser(user)['details'])
 
     function removePair(key){
-        const copyDetails = currDetails
-        delete copyDetails[key]
+        const copyUser = {...currUser};
+        delete copyUser['details'][key];
         
-        setUser(user, currUser['details']);
-        
-        setCurrDetails(copyDetails);
-        setCurrUser(getUser(user));
-        console.log(currDetails);
+        updateUser(user, copyUser);
+        setCurrUser(copyUser);
     }
 
-    function addPair(key){
+    function addPair(key, value){
+        const copyUser = {...currUser};
+        copyUser['details'][key] = value;
 
+        updateUser(user, copyUser);
+        setCurrUser(copyUser);
     }
 
 
@@ -35,7 +35,7 @@ function Profile({ dimensions }) {
                         <PersonIcon style={{ fontSize: '15vw', color: 'var(--text-font)', paddingRight: '10px' }}/>
                     </div>
                     <div class="columnLarge">
-                        <KeyValuePairsDisplay editable={true} data={currDetails} removePair={removePair} addPair={addPair}/>
+                        <KeyValuePairsDisplay editable={true} data={currUser['details']} removePair={removePair} addPair={addPair}/>
                         <div class="profileBio">{currUser['bio']}</div>
                     </div>
                 </div>

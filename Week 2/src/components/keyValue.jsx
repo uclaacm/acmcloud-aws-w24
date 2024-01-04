@@ -13,20 +13,12 @@ const KeyValuePairsDisplay = ({ data, editable, removePair, addPair }) => {
   const [newKey, setNewKey] = useState('');
   const [newValue, setNewValue] = useState('');
 
-
-  const handleAdd = () => {
-    if (onAdd && newKey && newValue) {
-      onAdd(newKey, newValue);
-      setNewKey('');
-      setNewValue('');
-    }
-  };
-
   return (
     <div>
         <div class="profileDetails paddingBottom">
-            {Object.keys(data).map((key) => 
+            {Object.keys(data).map((key, index) => 
             <div key={key}>
+                {key}: {data[key]}
                 <IconButton
                     aria-label="delete"
                     onClick={() => removePair(key)}
@@ -34,28 +26,31 @@ const KeyValuePairsDisplay = ({ data, editable, removePair, addPair }) => {
                     <DeleteIcon />
                 </IconButton>
             </div>)}
-            <TextField
-              label="New Key"
-              variant="outlined"
-              fullWidth
-              value={newKey}
-              onChange={(e) => setNewKey(e.target.value)}
-            />
-            <TextField
-              label="New Value"
-              variant="outlined"
-              fullWidth
-              value={newValue}
-              onChange={(e) => setNewValue(e.target.value)}
-            />
+            <div class="columns paddingBottom">
+                <TextField
+                label="New Key"
+                variant="outlined"
+                fullWidth
+                value={newKey}
+                onChange={(e) => setNewKey(e.target.value)}
+                />
+                <TextField
+                label="New Value"
+                variant="outlined"
+                fullWidth
+                value={newValue}
+                onChange={(e) => setNewValue(e.target.value)}
+                />
+            </div>
             <Button
               variant="contained"
               color="primary"
-              onClick={addPair}
+              onClick={() => {addPair(newKey, newValue); setNewKey(""); setNewValue("");}}
               fullWidth
             >
               Add
             </Button>
+            
         </div>
     </div>
   );
