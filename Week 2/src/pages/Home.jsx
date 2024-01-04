@@ -35,7 +35,7 @@ function Home({ dimensions }) {
                 </div>
             </div>
             <div class="nextSteps">
-                <h2 class="paddingBottom">Frequently Asked Questions</h2>
+                <h3 class="paddingBottom">Frequently Asked Questions</h3>
                 <CustomizedAccordion data={FAQ_DETAILS} />
             </div>
         </div>

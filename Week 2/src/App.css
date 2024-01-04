@@ -31,7 +31,7 @@ body {
 .nav-menu {
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding-right: 20px;
   overflow: hidden;
   background-color: var(--background-secondary);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -41,15 +41,29 @@ body {
   justify-content: space-between;
 }
 
-.nav-item {
-  font-size: 1.5em;
-  font-weight: 600;
-  padding-top: 13px;
-  padding-bottom: 15px;
+.logo-item {
+  padding-top: 12px;
+  padding-bottom: 18px;
   padding-left: 20px;
   padding-right: 20px;
   margin-left: 10px;
   margin-right: 10px;
+  
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item {
+  font-size: 1.3em;
+  font-weight: 600;
+  padding-top: 14px;
+  padding-bottom: 18px;
+  padding-left: 15px;
+  padding-right: 15px;
   color: var(--text-font);
   
   text-align: center;
@@ -80,6 +94,14 @@ h1 {
 }
 
 h2 {
+  font-size: 3em;
+  font-weight: 600;
+  color: var(--text-font);
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
   font-size: 2em;
   font-weight: 600;
   color: var(--text-font);
@@ -106,9 +128,39 @@ p {
   padding: 50px;
 }
 
+
 .nextSteps {
   padding: 30px;
   padding-top: 60px;
+}
+
+.loginBox {
+  background-color: var(--background-secondary);
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  padding: 50px;
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.profileDetails {
+  color: var(--text-font);
+  font-size: 1.6em;
+  font-weight: 500;
+}
+
+.profileBio {
+  color: var(--text-font);
+  font-size: 1.3em;
+  font-weight: 400;
+}
+
+.Box {
+  background-color: var(--background-secondary);
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  padding: 50px; 
 }
 
 .paddingTop {
@@ -117,6 +169,11 @@ p {
 
 .paddingBottom {
   padding-bottom: 20px;
+}
+
+.alignRight {
+  float: right;
+  padding-right: 30px;
 }
 
 .columns {

@@ -58,7 +58,7 @@ export default function CustomizedAccordion({data}) {
   return (
     <div>
         {data.map((tab, index) =>
-        <Accordion expanded={expanded === index} onChange={handleChange(index)}>
+        <Accordion expanded={expanded === index} onChange={handleChange(index)} key={index}>
             <AccordionSummary>
                 <Typography>{tab.name}</Typography>
             </AccordionSummary> 
