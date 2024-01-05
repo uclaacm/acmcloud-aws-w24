@@ -1,4 +1,4 @@
-# Week 1: Using a Virtual Machine
+# Week 2: Using a Virtual Machine
 
 In this tutorial, we'll be creating a React site locally, then deploying it using an EC2 virtual machine, and nginx as a proxy server.
 
