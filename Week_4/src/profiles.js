@@ -51,7 +51,7 @@ export function updateUser(userId, userDetails){
     }
 }
 
-export function addUser(username, password, name, bio){
+export function addUser(username, password, name){
     if (Object.keys(DATABASE).includes(username)){
         return false;
     }
@@ -100,8 +100,8 @@ export function tryLogin(username, password){
     return Object.keys(DATABASE).includes(username) && DATABASE[username]['password'] == password;
 }
 
-export function getUser(userid) {
-    return DATABASE[userid];
+export function getUser(userId) {
+    return DATABASE[userId];
 }
 
 export function getAllUserIds() {

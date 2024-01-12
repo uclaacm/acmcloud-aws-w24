@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Unstable_Grid2';
 import PersonIcon from '@mui/icons-material/Person';
-import { getUser, removeFriend, addFriend, getAllUserIds } from '../profiles';
+import { getUser, removeFriend, addFriend } from '../profiles';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
