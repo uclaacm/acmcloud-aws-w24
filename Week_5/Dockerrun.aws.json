@@ -1,0 +1,14 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+      "Name": "603979437253.dkr.ecr.us-east-1.amazonaws.com/acm-cloud-demo-test:latest",
+      "Update": "true"
+    },
+    "Ports": [
+      {
+        "ContainerPort": 80,
+        "HostPort": 8000
+      }
+    ],
+    "Logging": "/var/log/nginx"
+  }
