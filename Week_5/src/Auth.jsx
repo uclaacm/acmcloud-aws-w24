@@ -9,10 +9,9 @@ export const useAuth = () => useContext(AuthContext);
 //Create auth provider
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [userID, setUserID] = useState(null);
-  
+    
     return (
-      <AuthContext.Provider value={{ user, setUser, userID, setUserID }}>
+      <AuthContext.Provider value={{ user, setUser }}>
         {children}
       </AuthContext.Provider>
     );

@@ -14,7 +14,7 @@ function Search({ dimensions }) {
     return (
         <div class="home">
             <h2 class="paddingBottom">All Users</h2>
-            <FriendTiles friends={allUsers} includeOnlyFriends={false}/>
+            <FriendTiles people={allUsers} />
         </div>
     );
 };
