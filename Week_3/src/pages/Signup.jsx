@@ -24,7 +24,7 @@ function SignUp({ dimensions }) {
 
     return (
         <div class="home">
-            <h2 class="paddingBottom">Login</h2>
+            <h2 class="paddingBottom">Sign Up</h2>
             <div class="loginBox">
                 <TextField
                     required
