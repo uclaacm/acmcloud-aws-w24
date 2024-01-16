@@ -12,7 +12,7 @@ const dynamo = DynamoDBDocumentClient.from(client);
 const tableName = "aws-cloud-database-test";
 
 export const handler = async (event, context) => {
-    let body, user;
+    let body, user, requestJSON;
     let statusCode = 200;
     const headers = { "Content-Type": "application/json" };
 
@@ -41,16 +41,24 @@ export const handler = async (event, context) => {
             );
             body = body.Item;
             break;
+            
+        case "GET /users/{usernames}":
+            requestJSON = JSON.parse(event.pathParameters.usernames);
+            body = await dynamo.send(
+                new ScanCommand({ TableName: tableName })
+            );
+            body = body.Items.filter((user) => requestJSON.includes(user.username));
+            break;
 
         case "GET /allusers":
             body = await dynamo.send(
                 new ScanCommand({ TableName: tableName })
             );
-            body = body.Items;
+            body = body.Items.map((details) => details.username);
             break;
 
         case "GET /login/{username}/{password}":
-            const response = await dynamo.send(
+            body = await dynamo.send(
                 new GetCommand({
                     TableName: tableName,
                     Key: {
@@ -58,15 +66,35 @@ export const handler = async (event, context) => {
                     },
                 })
             );
-            
-            body = { 'valid': response.Item['password'] === event.pathParameters.password ? true : false };
+            body = body.Item.password === event.pathParameters.password ? body.Item : (statusCode = 401);
             break;
+            
         case "POST /addfriend/{username}/{friend}":
+            // Updating user
             user = await dynamo.send(
                 new GetCommand({
                     TableName: tableName,
                     Key: {
                         username: event.pathParameters.username,
+                    },
+                })
+            );
+            user.Item['friends'].push(event.pathParameters.friend);
+            await dynamo.send(
+                new PutCommand({
+                    TableName: tableName,
+                    Item: {
+                        ...user.Item,
+                    },
+                })
+            );
+            
+            // Updating friend
+            user = await dynamo.send(
+                new GetCommand({
+                    TableName: tableName,
+                    Key: {
+                        username: event.pathParameters.friend,
                     },
                 })
             );
@@ -79,10 +107,13 @@ export const handler = async (event, context) => {
                     },
                 })
             );
+            
+            
             break;     
 
         case "POST /removefriend/{username}/{friend}":
-            const user = await dynamo.send(
+            // Updating user
+            user = await dynamo.send(
                 new GetCommand({
                     TableName: tableName,
                     Key: {
@@ -99,10 +130,30 @@ export const handler = async (event, context) => {
                     },
                 })
             );
+            
+                        
+            // Updating friend
+            user = await dynamo.send(
+                new GetCommand({
+                    TableName: tableName,
+                    Key: {
+                        username: event.pathParameters.friend,
+                    },
+                })
+            );
+            user.Item['friends'] = user.Item['friends'].filter(x => x != event.pathParameters.username);
+            await dynamo.send(
+                new PutCommand({
+                    TableName: tableName,
+                    Item: {
+                        ...user.Item,
+                    },
+                })
+            );
             break;
 
         case "PUT /user":
-            let requestJSON = JSON.parse(event.body);
+            requestJSON = JSON.parse(event.body);
             await dynamo.send(
                 new PutCommand({
                     TableName: tableName,
