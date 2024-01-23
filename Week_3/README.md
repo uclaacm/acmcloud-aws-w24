@@ -37,7 +37,7 @@ After you instance has transitioned from the **Provisioning** to **Running** sta
 Finally, we can proceed to pulling in our site code and setting up a proxy server as follows
 
 1. Run `git clone https://github.com/uclaacm/acmcloud-aws-w24.git` to clone our custom website (alternatively, clone your own public repo)
-2. Run `cd acmcloud-aws-w24` to move into the new directory, and run `npm install` to install the site dependencies
+2. Run `cd acmcloud-aws-w24/Week_3` to move into the new directory, and run `npm install` to install the site dependencies
 3. Run `npm run build` to create a production build of the site under a new `dist/` directory 
 4. Create a target hosting directory by running `sudo mkdir /var/cloud-react`
 5. Copy over our production build by running `sudo cp -R dist/ /var/cloud-react/`

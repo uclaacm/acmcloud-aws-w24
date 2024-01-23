@@ -10,6 +10,7 @@ Before we can set up our deployment CI/CD, we first need to create an Elastic Co
 2. Click **Get started** under Create a repository
 3. Give your repo a name (which will be the suffix to an AWS prefix) - you'll need this name later
 4. Click **Create repository**
+5. Return to this repo and replace the `[ACCOUNT ID]` and `[IMAGE REPO NAME]` fields in the `Dockerrun.aws.json` file
 
 ## Using CodeBuild to Build Images
 
@@ -28,7 +29,7 @@ The following steps detail how we can automate the containerization and storage 
     * `AWS_ACCOUNT_ID`: Enter your account id (you can find this by clicking your account name in the top right)
     * `IMAGE_TAG`: `latest`
     * `IMAGE_REPO_NAME`: Enter the repo name from the ECR steps
-10. Under Buildspec, provide the Buildspec name as `Week_4/buildspec.yml`
+10. Under Buildspec, provide the Buildspec name as `Week_5/buildspec.yml`
 11. Click **Create build project** to create the build project
 12. After the project provisions, click on the build, navigate to the Build details tab, and scroll and click on the Service role
 13. Add the `AmazonEC2ContainerRegistryFullAccess` AWS managed policy to the IAM role
