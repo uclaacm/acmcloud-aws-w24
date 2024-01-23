@@ -57,7 +57,7 @@ server {
 ```
 8. Start the nginx proxy server by running `sudo systemctl start nginx`
 
-After completing these steps, return to the EC2 instance console page and navigate to the **private IP** to view the deployed site. Be sure to use `http` instead of `https` since we have not set up an SSL Certificate. 
+After completing these steps, return to the EC2 instance console page and navigate to the **public IP** to view the deployed site. Be sure to use `http` instead of `https` since we have not set up an SSL Certificate. 
 
 ## Additional Resources
 * Node + Vite [quickstart](https://vitejs.dev/guide/)
