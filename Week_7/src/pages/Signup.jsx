@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Auth";
-import { addUser } from '../profiles';
-import { useState } from 'react';
+import { trySignUp } from '../profiles';
+import { useState, useCallback } from 'react';
 
 function SignUp({ dimensions }) {
     const { setUser, user } = useAuth();
@@ -13,14 +13,26 @@ function SignUp({ dimensions }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const doSignUp = useCallback(
+        (e) => {
+            e.preventDefault();
+            const newUser = {
+                'username': username,
+                'password': password,
+                'name': name,
+                'details': {},
+                'friends': [],
+                'bio': ""
+            }
+            trySignUp(newUser, successfulLogin);
+        },
+        [setUser, username, password, name]
+    );
 
-    function doSignUp(){
-        if (addUser(username, password, name)){
-            setUser(username);
-            navigate("/profile");
-        }
+    const successfulLogin = (userDetails) => {
+        setUser(userDetails);
+        navigate("/profile");
     }
-
 
     return (
         <div class="home">

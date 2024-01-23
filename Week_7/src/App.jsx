@@ -41,7 +41,7 @@ function App() {
     return (_) => {
       window.removeEventListener("resize", debouncedHandleResize);
     };
-  });
+  }, []);
 
   return (
     <div className="App">

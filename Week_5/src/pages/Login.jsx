@@ -2,26 +2,25 @@ import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../Auth";
-import { useState, useCallback } from 'react';
 import { tryLogin } from '../profiles';
+import { useState } from 'react';
 
 function Login({ dimensions }) {
-    const { user, setUser } = useAuth();
+    const { setUser, user } = useAuth();
     const navigate = useNavigate();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const doLogin = useCallback(
-        (e) => {
-            e.preventDefault();
-            tryLogin(username, password, successfulLogin);
-        },
-        [setUser, username, password]
-    );
 
-    const successfulLogin = (userDetails) => {
-        setUser(userDetails);
+    function doLogin(){
+        if (tryLogin(username, password)){
+            successfulLogin(username);
+        }
+    }
+
+    const successfulLogin = (userID) => {
+        setUser(userID);
         navigate("/profile");
     }
 

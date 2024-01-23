@@ -1,6 +1,7 @@
 import PersonIcon from '@mui/icons-material/Person';
 import FriendTiles from '../components/friendTiles';
-import { getUser, BLANK_USER } from '../profiles';
+import { getUser } from '../profiles';
+import { useAuth } from "../Auth";
 import { useLocation } from 'react-router-dom';
 import { useState, useMemo, useEffect } from 'react';
 
@@ -12,12 +13,15 @@ function useQuery() {
 
 function User({ dimensions }) {
     let query = useQuery();
-    const [pageUser, setPageUser] = useState(BLANK_USER);
-    const [pageFriends, setPageFriends] = useState([]);
+    const [user, setUser] = useState(query.get("userid"));
+    let pageUser = getUser(user);
 
     useEffect(() => {
-        getUser(query.get("userid"), ((details) => {console.log(details); setPageUser(details); setPageFriends(details['friends'])}));
+        setUser(query.get("userid"));
+        pageUser = getUser(user);
     }, [query]);
+    console.log(user)
+    console.log(pageUser);
 
     return (
         <div class="home">
@@ -35,7 +39,7 @@ function User({ dimensions }) {
             </div>
             <div class="Friends paddingTop">
                 <h2 class="paddingBottom paddingTop">Friends</h2>
-                <FriendTiles people={pageFriends}/>
+                <FriendTiles friends={pageUser['friends']} includeOnlyFriends={false}/>
             </div>
         </div>
     );

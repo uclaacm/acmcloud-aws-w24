@@ -1,74 +1,58 @@
-# Week 5: Databases and Serverless
+# Week 4: Continuous Integration and Deployment
 
-In this tutorial, we'll be implementing the back-end of our full-stack application, making use of DynamoDB as a non-relational, NoSQL database solution, and using Lambda and API Gateway as an API for our database. Finally, we'll be modifying our front-end code from earlier weeks to use our new back-end implementation.
+In this tutorial, we'll be switching over from using DockerHub to using AWS's Elastic Container Registry service to host our container. We'll also be automating our deployment process using AWS Code Build and AWS Code Pipeline, allowing us to commit a change to our github repo and (after a couple minutes) see it reflected in our live site.
 
-This tutorial was adapted from AWS's [documentation](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-dynamo-db.html) for creating a serverless API.
-
-## Creating a DynamoDB Table
-
-To create our database with DynamoDB, we'll take the following steps
-
-1. Open the DynamoDB [console](https://console.aws.amazon.com/dynamodb/)
-2. Choose **Create table**
-3. Give your table a name, and for Partition key, enter `username`
-4. Click **Create table**
-
-## Using Lambda as an API
+## Using Elastic Container Registry to Store Images
 
 Before we can set up our deployment CI/CD, we first need to create an Elastic Container Registry to host our built image within AWS. To do so, we take the following steps
 
-1. Sign in to the Lambda console at https://console.aws.amazon.com/lambda.
-2. Click **Create function** and give your function a name
-3. Under Permissions choose **Change default execution role**
-4. Select **Create a new role** from AWS policy templates
-5. Give your role a name and select **Simple microservice permissions**
-6. Click **Create function**
-7. Open the `index.mjs` file in the browser text editor. Paste in the content from the `/lambda/index.mjs` file in this repo
-8. Click **Deploy** to save the changes
+1. Open the AWS console and navigate to the ECR page
+2. Click **Get started** under Create a repository
+3. Give your repo a name (which will be the suffix to an AWS prefix) - you'll need this name later
+4. Click **Create repository**
 
-## Using API Gateway for API Routing
+## Using CodeBuild to Build Images
 
-Finally for this tutorial we'll be making use of another AWS service to act as an endpoint for our Lambda function. Although it's possible to use Lambda as an endpoint directly, using API Gateway allows AWS to handle balancing requests and 
+The following steps detail how we can automate the containerization and storage of our website.
 
-1. Sign in to the API Gateway console at https://console.aws.amazon.com/apigateway.
-2. Choose **Create API**, and then for HTTP API, choose **Build**
-3. Give your API a name and click **Next**
-4. Click **Next** to skip configuring routes, and **Next** to leave the default stage unchanged
-5. Choose **Create** to create your API Gateway
-6. Select the API you just created, and select **Routes**
-7. Click **Create**  to create a new route
-8. Select `PUT` for the method and enter `/user/{username}` for the path
-9. Click **Create**
-10. Repeat steps 7, 8, and 9 for the following routes
-    * `DELETE` request, with path `/user/{username}`
-    * `PUT` request, with path `/user`
-    * `GET` request with path `/users/{usernames}`
-    * `POST` request with path `/removefriend/{username}/{friend}`
-    * `POST` request with path `/addfriend/{username}/{friend}`
-    * `GET` request with path `/login/{username}/{password}`
-    * `GET` request with path `/allusers`
+1. Open the AWS console and navigate to the CodeBuild page
+2. Click **Create project** button under Create AWS CodeBuild project
+3. Give your project a name
+4. Under Source, select `GitHub` under the dropdown menu
+5. Select **Public repository** and authenticate with OAuth
+6. Paste the repository url in the field, in our case `https://github.com/uclaacm/acmcloud-aws-w24`
+7. Under Environment select `Amazon Linux` as the Operating system, `Standard` for the runtime, and `aws/codebuild/amazonlinux2-x86_64-standard:5:0` for the image
+8. Leave **New service role** selected and give the role a name (we'll need to add a permission to this in a second)
+9. Expand the Additional configuration menu and add the following Environment variables
+    * `AWS_DEFAULT_REGION`: `us-east-1`
+    * `AWS_ACCOUNT_ID`: Enter your account id (you can find this by clicking your account name in the top right)
+    * `IMAGE_TAG`: `latest`
+    * `IMAGE_REPO_NAME`: Enter the repo name from the ECR steps
+10. Under Buildspec, provide the Buildspec name as `Week_4/buildspec.yml`
+11. Click **Create build project** to create the build project
+12. After the project provisions, click on the build, navigate to the Build details tab, and scroll and click on the Service role
+13. Add the `AmazonEC2ContainerRegistryFullAccess` AWS managed policy to the IAM role
+14. Return to the build project and click `Start build` to manually trigger the build and confirm configuration
 
-Now that we've created our routes, we'll need to connect API Gateway to our Lambda function with the following steps
+## Using CodePipeline to Deploy Images
 
-1. Select **Integrations**, then select **Manage integrations** and **Create**
-2. Skip Attach this integration to a route. You complete that in a later step.
-3. For Integration type, choose **Lambda function** and select the Lambda function created earlier in this tutorial
-4. Click **Create**
-5. Under the Integrations page, select the `/users/{usernames}` route
-6. Select the Lambda integration from the Choose an existing integration dropdown and press  **Attach integration**
-7. Repeat step 6 for all the other routes
+Now that we are hosting our images with AWS, we can proceed to create an automate the deployment process when a new commit is detected in the GitHub repo.
 
-## Connecting to API Gateway from React
+1. Open the AWS console and navigate to the CodePipeline page
+2. Click **Create pipeline** and give your pipeline a name
+3. Leave **New service role** selected and give your service role a name
+4. Under Source, select `GitHub (Version 1)` as the provider and authenticate with OAuth
+5. Select the relevant repo and bracnch (for us `uclaacm/acmcloud-aws-w24` and the `main` branch), then click **Next**
+6. Select `AWS CodeBuild` as the build provider, and select the build project created in the previous steps. then click **Next**
+7. Select `AWS Elastic Beanstalk` as the deploy provider, and select the application and environment from "Week_3"
+8. Click **Next** then scroll to the bottom of the screen and click **Create pipeline**
+9. Return to the Elastic Beanstalk console and click **Configuration** for your environment to view your Service role. Find the Service role in IAM and add the `AmazonEC2ContainerRegistryFullAccess` permission to it
+10. Navigate to the CodePipeline page. Then, commit a change to the linked GitHub repo and confirm the Source, Build, and Deploy steps function properly. Finally, view the updated site in the browser
 
-Now that we've got our backend up and running, let's look at the changes made to connect to it from our react site.
-
-* `src/profiles.js` - this file has been modified to contain a series of calls to the API
-* `src/pages/Login.jsx`, `src/pages/Signup.jsx` - these files call a new function in the `profile.js` file to attempt to login/signup
-* `src/pages/Home.jsx`, `src/components/friendTiles.jsx` - these files now make use of the useEffect Hook to update data
 
 ## Additional Resources
-* AWS back-end [tutorial](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-dynamo-db.html)
-* Using React useState() and useEffect [Hooks](https://react.dev/reference/react)
-* DynamoDB [documentation](https://docs.aws.amazon.com/dynamodb/)
-* Lambda [documentation](https://aws.amazon.com/lambda/)
-* API Gateway [documentation](https://aws.amazon.com/api-gateway/)
+* Docker [guide](https://docker-curriculum.com/)
+* Using Docker with Elastic Beanstalk [documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.html)
+* AWS CodeBuild buildspec [reference](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html)
+* AWS CodeBuild [example](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html#sample-docker-files)
+* Public AWS ECR image [gallery](https://gallery.ecr.aws/)

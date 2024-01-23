@@ -9,9 +9,10 @@ export const useAuth = () => useContext(AuthContext);
 //Create auth provider
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    
+    const [userID, setUserID] = useState(null);
+  
     return (
-      <AuthContext.Provider value={{ user, setUser }}>
+      <AuthContext.Provider value={{ user, setUser, userID, setUserID }}>
         {children}
       </AuthContext.Provider>
     );

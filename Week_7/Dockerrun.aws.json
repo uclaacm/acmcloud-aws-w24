@@ -1,7 +1,7 @@
 {
     "AWSEBDockerrunVersion": "1",
     "Image": {
-      "Name": "satyensub/cloud-aws-demo-wk2",
+      "Name": "603979437253.dkr.ecr.us-east-1.amazonaws.com/acm-cloud-demo-test:latest",
       "Update": "true"
     },
     "Ports": [

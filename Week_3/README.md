@@ -1,59 +1,64 @@
-# Week 3: Management and Scaling with Elastic Beanstalk
+# Week 2: Using a Virtual Machine
 
-In this tutorial, we'll be containerizing our React site (which has now been fleshed out a bit to resemble a sample full stack application), then deploying it using an Elastic Beanstalk. AWS's Elastic Beanstalk service will allow us to both load balance and scale our server, using EC2 virtual machines as the underlying compute resource.
+In this tutorial, we'll be creating a React site locally, then deploying it using an EC2 virtual machine, and nginx as a proxy server.
 
-## Dockerizing Our Site
+## Running a Custom Website Locally
 
-Before beginning, be sure to install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and a [text editor](https://code.visualstudio.com/) of your choice. For this tutorial, we'll be containerizing the React website present in thie repo, but the following steps will work with any react site you've created (with minor modifications).
+Before beginning, be sure to install [Node](https://nodejs.org/) and a [text editor](https://code.visualstudio.com/) of your choice. For this tutorial, we'll be using React to create a website - to follow along, either clone this repo or follow the steps below
 
-1. Open Docker Desktop (which will also run docker in the background). Create and login to your docker account through the UI (alternatively this can be done through the command line)
-2. Navigate to your project directory.  Run `docker version` to confirm docker is running
-3. Run `docker build -t [username]/[docker image name] .` to create an image (provide your own username and image name)
-4. Run `docker image ls` to list all images on your device and confirm the image built successfully 
-5. Run `docker run -p 3000:80 [username]/[docker image name]` to run the docker image you created locally as a container
-6. Navigate to `localhost:3000` and view your site
+1. Run the command `npm create vite@latest` in your project directory
+2. Give your project a name when prompted (ex: ec2-react-demo)
+3. Select `React` as the project framework
+4. Select `JavaScript` as the framework variant
 
-Once we've created an image from our code, we'll want to share this image publically to be used. In our case, we'll use dockerhub (think github but for images instead of code), and will take the following steps.
+After acquiring the site code, you'll need to run `npm install` to install the site dependencies. Finally, to test the site locally, run `npm run dev` and navigate to the link provided (CTRL + Click).
 
-1. Stop the container (if it's still running from before). This can be done with the `docker container stop [container id]` command or through docker desktop
-2. Run the command `docker push [username]/[docker image name]` to push the image to dockerhub
+## Deploying Our Website With Amazon EC2
 
-## Deploying Our Website With Amazon Elastic Beanstalk
-
-Before starting, you'll need to create an [AWS Account](https://portal.aws.amazon.com/billing/signup#/start/email) - or reuse the one you've created in the previous week. All resources provisioned in this tutorial are covered under the AWS Free Tier, but be sure to **clean up your resources** after completing the following steps. Before we work with Elastic Beanstalk, we'll have to create an IAM role with the following steps
-
-1. Open the AWS console and navigate to the IAM page
-2. Click the "Create role" button
-3. Click "EC2" under use cases, then and click "next"
-4. Add the `AWSElasticBeanstalkWebTier`, `AWSElasticBeanstalkWorkerTier`, and `AWSElasticBeanstalkMulticontainerDocker` permissions to the role. Then click "next"
-5. Give your role a name (ex: EC2ElasticBeanstalkProfile)
-6. Click "create role" at the bottom
-
-Now we can take the following steps to provision our Elastic Beanstalk environment
+Before starting, you'll need to create an [AWS Account](https://portal.aws.amazon.com/billing/signup#/start/email) - we'll use this account in future weeks as well. All resources provisioned in this tutorial are covered under the AWS Free Tier, but be sure to **clean up your resources** after completing the following steps.
 
 1. Sign in to the [AWS Portal](https://signin.aws.amazon.com/)
-2. Click on the **Services** menu and search for **Elastic Beanstalk**
-3. Click the orange **Create environment** button
-4. Provide your Elastic Beanstalk environment and application each names (ex: acm-cloud-demo)
-5. Under Platform, select **Docker** from the dropdown menu
-6. Under Application Code, select **Upload your code**, then click the **Local file** option
-7. Click **Choose file** and upload the `Dockerrun.aws.json` file in the repo. This file specifies the docker image to use, as well as the port mapping
-8. Scroll down and click **next**. Click "Create and use new service role"
-9. Select the IAM Role you'd created from the EC2 instance profile dropdown
-10. Click the "skip to review" button and press "submit"
+2. Click on the **Services** menu and search for **EC2**
+3. Click the orange **Launch instance** button
+4. Provide your EC2 instance a name (ex: acmcloud-ec2-react)
+5. Under Key Pair, select **Proceed without a key pair** (or optionally create a new key pair to SSH with)
+6. Under Network Settings check **Allow HTTP traffic from the internet** and **Allow HTTPS traffic from the internet**
+7. Click **Launch instance**
 
-After a couple minutes, your Elastic Beanstalk application should transition from the pending to the Ok state. Proceed to click the **Domain** listed and view the deployed application.
+After you instance has transitioned from the **Provisioning** to **Running** state, we can proceed to add our required dependencies to the Virtual Machine with the following steps
 
-## Scaling with Elastic Beanstalk
+1. Click on the instance's instance ID, then click the **Connect** button in the top right
+2. Under the EC2 Instance Connect panel, click **Connect** (this allows us to SSH with our AWS credentials and browser - an alternative is to use an SSH key pair and connect locally)
+3. Run `sudo yum update` to update the packages of the EC2 instance
+4. Run `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash` to install node version manager (nvm)
+5. Run `. ~/.nvm/nvm.sh`, then `nvm install --lts` to install the latest version of node
+6. Run `sudo yum install git` to install git on our EC2 instance
 
-Although load balancing is made simple with Elastic Beanstalk, doing so can exceed the free tier, so we'll just be discussing how it can be done below.
+Finally, we can proceed to pulling in our site code and setting up a proxy server as follows
 
-1. Scroll to the environment in the left panel and click **Configuration**
-2. Under Instance traffic and scaling, note the Environment type is **Single instance**. By clicking edit, we have the option of changing this to **Load balanced**
-3. With **Load balanced** selected, we can provide a minimum and maximum number of instances to scale between, as well as a variety of options to configure the trigger for scaling up and down
+1. Run `git clone https://github.com/uclaacm/acmcloud-aws-w24.git` to clone our custom website (alternatively, clone your own public repo)
+2. Run `cd acmcloud-aws-w24` to move into the new directory, and run `npm install` to install the site dependencies
+3. Run `npm run build` to create a production build of the site under a new `dist/` directory 
+4. Create a target hosting directory by running `sudo mkdir /var/cloud-react`
+5. Copy over our production build by running `sudo cp -R dist/ /var/cloud-react/`
+6. Install the nginx proxy server by running `sudo yum -y install nginx`
+7. Open the nginx proxy server configuration file by running `sudo nano /etc/nginx/nginx.conf` and replace the `server` section with the following code (or use the full `nginx.conf` file in this repo)
 
-Notably another benefit of provisioning a load balancer, Elastic Beanstalk also makes registering an SSL certificate (required by sites that use `https` for security) simpler.
+```Nginx
+server {
+    listen       80;
+    listen       [::]:80;
+    root         /var/cloud-react/dist;
+    
+    location / {
+        try_files $uri /index.html;
+    }
+}
+```
+8. Start the nginx proxy server by running `sudo systemctl start nginx`
+
+After completing these steps, return to the EC2 instance console page and navigate to the **private IP** to view the deployed site. Be sure to use `http` instead of `https` since we have not set up an SSL Certificate. 
 
 ## Additional Resources
-* Docker [guide](https://docker-curriculum.com/)
-* Using Docker with Elastic Beanstalk [documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.html)
+* Node + Vite [quickstart](https://vitejs.dev/guide/)
+* Installing Node on EC2 [documentation](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-up-node-on-ec2-instance.html)

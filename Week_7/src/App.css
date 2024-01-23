@@ -1,0 +1,190 @@
+:root{
+  --color-primary: #38b2ac;
+  --color-secondary: #1e615d;
+  --color-error: #ef4146;
+  --background-primary: #EEF5FF;
+  --background-secondary: #B4D4FF;
+  --background-tertiary: #86B6F6;
+  --background-dark: #176B87;
+
+  --light-primary: #ffffff;
+  --light-secondary: #deecff;
+  --light-tertiary: #c6deff;
+
+  /* --dark-primary: #171923;
+  --dark-default: #282c34;
+  --dark-secondary: #3d4756;
+  --dark-disabled: #A0AAB4;  */
+  --text-error: var(--color-error);
+  --text-font: #01223e;
+  font-family: "Segoe UI";
+
+
+  background-color: var(--background-primary);
+  margin: 0;
+}
+
+body {
+  margin: 0;
+}
+
+.nav-menu {
+  list-style-type: none;
+  margin: 0;
+  padding-right: 20px;
+  overflow: hidden;
+  background-color: var(--background-secondary);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.logo-item {
+  padding-top: 12px;
+  padding-bottom: 18px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item {
+  font-size: 1.3em;
+  font-weight: 600;
+  padding-top: 14px;
+  padding-bottom: 18px;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: var(--text-font);
+  
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s; 
+}
+
+.nav-item:hover {
+  background-color: var(--background-tertiary);
+}
+
+.home {
+  padding-top: 6vh;
+  padding-left: 6vw;
+  padding-right: 6vw;
+}
+
+h1 {
+  font-size: 5em;
+  font-weight: 600;
+  color: var(--text-font);
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  font-size: 3em;
+  font-weight: 600;
+  color: var(--text-font);
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+  font-size: 2em;
+  font-weight: 600;
+  color: var(--text-font);
+  margin: 0;
+  padding: 0; 
+}
+
+h4 {
+  color: var(--text-font);
+  font-size: 2em;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  color: var(--text-font);
+}
+
+.heroSection {
+  background-color: var(--background-secondary);
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  padding: 50px;
+}
+
+
+.nextSteps {
+  padding: 30px;
+  padding-top: 60px;
+}
+
+.loginBox {
+  background-color: var(--background-secondary);
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  padding: 50px;
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.profileDetails {
+  color: var(--text-font);
+  font-size: 1.6em;
+  font-weight: 500;
+}
+
+.profileBio {
+  color: var(--text-font);
+  font-size: 1.3em;
+  font-weight: 400;
+}
+
+.Box {
+  background-color: var(--background-secondary);
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  padding: 50px; 
+}
+
+.paddingTop {
+  padding-top: 20px;
+}
+
+.paddingBottom {
+  padding-bottom: 20px;
+}
+
+.alignRight {
+  float: right;
+  padding-right: 30px;
+}
+
+.columns {
+  display: flex;
+}
+
+.columnLarge {
+  flex: 5;
+}
+
+.columnSmall {
+  flex: 1;
+  margin-left: 10px;
+}

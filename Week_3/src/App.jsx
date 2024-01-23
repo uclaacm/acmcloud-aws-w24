@@ -1,67 +1,34 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Header from "./components/header";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Profile from "./pages/Profile";
-import Search from "./pages/Search";
-import User from "./pages/User";
-import { useState, useEffect } from "react";
-import { AuthProvider, RequireAuth } from "./Auth";
-
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 import './App.css'
-import SignUp from "./pages/Signup";
-
-function debounce(fn, ms) {
-  let timer;
-  return (_) => {
-    clearTimeout(timer);
-    timer = setTimeout((_) => {
-      timer = null;
-      fn.apply(this, arguments);
-    }, ms);
-  };
-}
 
 function App() {
-  const [dimensions, setDimensions] = useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
-    
-  useEffect(() => {
-    const debouncedHandleResize = debounce(function handleResize() {
-      setDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-    }, 100);
-
-    window.addEventListener("resize", debouncedHandleResize);
-
-    return (_) => {
-      window.removeEventListener("resize", debouncedHandleResize);
-    };
-  });
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <AuthProvider>
-        <BrowserRouter>
-          <Header dimensions={dimensions}/>
-          <Routes>
-            <Route path="/home" element={<Home dimensions={dimensions} />} />
-            <Route path="/login" element={<Login dimensions={dimensions} />} />
-            <Route path="/signup" element={<SignUp dimensions={dimensions} />} />
-            <Route path="*" element={<Navigate to="/home" replace />} />
-            <Route element={<RequireAuth />}>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/user" element={<User />} />
-              <Route path="/search" element={<Search dimensions={dimensions} />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-    </div>
+    <>
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
   )
 }
 
