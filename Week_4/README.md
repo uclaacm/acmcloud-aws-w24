@@ -37,7 +37,7 @@ Now we can take the following steps to provision our Elastic Beanstalk environme
 4. Provide your Elastic Beanstalk environment and application each names (ex: acm-cloud-demo)
 5. Under Platform, select **Docker** from the dropdown menu
 6. Under Application Code, select **Upload your code**, then click the **Local file** option
-7. Click **Choose file** and upload the `Dockerrun.aws.json` file in the repo. This file specifies the docker image to use, as well as the port mapping
+7. In this repo, update the `Name` field of the `Dockerrun.aws.json` file to point to the image you deployed before. Click **Choose file** and upload the `Dockerrun.aws.json` file in the repo. This file specifies the docker image to use, as well as the port mapping
 8. Scroll down and click **next**. Click "Create and use new service role"
 9. Select the IAM Role you'd created from the EC2 instance profile dropdown
 10. Click the "skip to review" button and press "submit"
