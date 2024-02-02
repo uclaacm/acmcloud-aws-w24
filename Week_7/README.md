@@ -1,4 +1,4 @@
-# Week 5: Databases and Serverless
+# Week 7: Databases and Serverless
 
 In this tutorial, we'll be implementing the back-end of our full-stack application, making use of DynamoDB as a non-relational, NoSQL database solution, and using Lambda and API Gateway as an API for our database. Finally, we'll be modifying our front-end code from earlier weeks to use our new back-end implementation.
 

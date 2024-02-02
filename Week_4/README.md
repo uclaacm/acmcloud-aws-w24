@@ -1,4 +1,4 @@
-# Week 3: Management and Scaling with Elastic Beanstalk
+# Week 4: Management and Scaling with Elastic Beanstalk
 
 In this tutorial, we'll be containerizing our React site (which has now been fleshed out a bit to resemble a sample full stack application), then deploying it using an Elastic Beanstalk. AWS's Elastic Beanstalk service will allow us to both load balance and scale our server, using EC2 virtual machines as the underlying compute resource.
 

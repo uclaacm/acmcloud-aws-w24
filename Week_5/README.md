@@ -1,4 +1,4 @@
-# Week 4: Continuous Integration and Deployment
+# Week 5: Continuous Integration and Deployment
 
 In this tutorial, we'll be switching over from using DockerHub to using AWS's Elastic Container Registry service to host our container. We'll also be automating our deployment process using AWS Code Build and AWS Code Pipeline, allowing us to commit a change to our github repo and (after a couple minutes) see it reflected in our live site.
 
