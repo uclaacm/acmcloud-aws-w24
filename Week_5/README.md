@@ -10,7 +10,8 @@ Before we can set up our deployment CI/CD, we first need to create an Elastic Co
 2. Click **Get started** under Create a repository
 3. Give your repo a name (which will be the suffix to an AWS prefix) - you'll need this name later
 4. Click **Create repository**
-5. Return to this repo and replace the `[ACCOUNT ID]` and `[IMAGE REPO NAME]` fields in the `Dockerrun.aws.json` file
+5. Fork a copy of this repo into your own GitHub account - this will let you commit modifications and see them deployed later
+6. In the forked repo, replace the `[ACCOUNT ID]` and `[IMAGE REPO NAME]` fields in the `Dockerrun.aws.json` file and commit the change
 
 ## Using CodeBuild to Build Images
 
@@ -21,7 +22,7 @@ The following steps detail how we can automate the containerization and storage 
 3. Give your project a name
 4. Under Source, select `GitHub` under the dropdown menu
 5. Select **Public repository** and authenticate with OAuth
-6. Paste the repository url in the field, in our case `https://github.com/uclaacm/acmcloud-aws-w24`
+6. Paste the repository url in the field, in our case `https://github.com/[Your Username]/acmcloud-aws-w24`
 7. Under Environment select `Amazon Linux` as the Operating system, `Standard` for the runtime, and `aws/codebuild/amazonlinux2-x86_64-standard:5:0` for the image
 8. Leave **New service role** selected and give the role a name (we'll need to add a permission to this in a second)
 9. Expand the Additional configuration menu and add the following Environment variables
