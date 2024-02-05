@@ -44,9 +44,9 @@ Now that we are hosting our images with AWS, we can proceed to create an automat
 2. Click **Create pipeline** and give your pipeline a name
 3. Leave **New service role** selected and give your service role a name
 4. Under Source, select `GitHub (Version 1)` as the provider and authenticate with OAuth
-5. Select the relevant repo and bracnch (for us `uclaacm/acmcloud-aws-w24` and the `main` branch), then click **Next**
+5. Select the relevant repo and bracnch (for us `[Your Username]/acmcloud-aws-w24` and the `main` branch), then click **Next**
 6. Select `AWS CodeBuild` as the build provider, and select the build project created in the previous steps. then click **Next**
-7. Select `AWS Elastic Beanstalk` as the deploy provider, and select the application and environment from "Week_3"
+7. Select `AWS Elastic Beanstalk` as the deploy provider, and select the application and environment from "Week_3". If you've deleted this application, then switch over to Elastic Beanstalk and create a new environment with the default Docker template.
 8. Click **Next** then scroll to the bottom of the screen and click **Create pipeline**
 9. Return to the Elastic Beanstalk console and click **Configuration** for your environment to view your Service role. Find the Service role in IAM and add the `AmazonEC2ContainerRegistryFullAccess` permission to it
 10. Navigate to the CodePipeline page. Then, commit a change to the linked GitHub repo and confirm the Source, Build, and Deploy steps function properly. Finally, view the updated site in the browser
