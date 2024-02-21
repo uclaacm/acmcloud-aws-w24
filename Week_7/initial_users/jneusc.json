@@ -1,0 +1,31 @@
+{
+    "username": {
+      "S": "jneusc"
+    },
+    "bio": {
+      "S": "I wish I went to UCLA!"
+    },
+    "details": {
+      "M": {
+        "Favorite Color": {
+          "S": "red"
+        },
+        "School": {
+          "S": "USC"
+        }
+      }
+    },
+    "friends": {
+      "L": [
+        {
+          "S": "jb123"
+        }
+      ]
+    },
+    "name": {
+      "S": "Jane Usc"
+    },
+    "password": {
+      "S": "1234"
+    }
+  }

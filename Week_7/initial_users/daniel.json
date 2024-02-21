@@ -1,0 +1,28 @@
+{
+    "username": {
+      "S": "daniel"
+    },
+    "password": {
+      "S": "1234"
+    },
+    "name": {
+      "S": "Daniel Yang"
+    },
+    "details": {
+      "M": {
+        "School": {
+          "S": "UCLA"
+        }
+      }
+    },
+    "friends": {
+      "L": [
+        {
+          "S": "jb123"
+        }
+      ]
+    },
+    "bio": {
+      "S": "This is my bio!"
+    }
+  }

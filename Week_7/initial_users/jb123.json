@@ -1,0 +1,40 @@
+{
+    "username": {
+      "S": "jb123"
+    },
+    "bio": {
+      "S": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget."
+    },
+    "details": {
+      "M": {
+        "Favorite Color": {
+          "S": "Cake"
+        },
+        "Favorite Food": {
+          "S": "#ffffff"
+        },
+        "School": {
+          "S": "UCLA"
+        }
+      }
+    },
+    "friends": {
+      "L": [
+        {
+          "S": "jneusc"
+        },
+        {
+          "S": "daniel"
+        },
+        {
+          "S": "ssub"
+        }
+      ]
+    },
+    "name": {
+      "S": "Joe Bruin"
+    },
+    "password": {
+      "S": "1234"
+    }
+  }

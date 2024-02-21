@@ -10,8 +10,16 @@ To create our database with DynamoDB, we'll take the following steps
 
 1. Open the DynamoDB [console](https://console.aws.amazon.com/dynamodb/)
 2. Choose **Create table**
-3. Give your table a name, and for Partition key, enter `username`
+3. Give your table the name `aws-cloud-database-test`, and for Partition key, enter `username`
 4. Click **Create table**
+
+Now that we have our table, let's add some data to it! We'll be adding the same users we've been working with in previous weeks.
+
+1. Click on **tables** on the left panel, and click on your newly created table
+2. Click **Actions** and **Create item**
+3. On the top left, switch to **JSON view** and paste in the content from the `initial_users/daniel.json` file
+4. Click ** Create item** at the bottom of the page
+5. Repeat steps 1 - 4 for the other files in the `initial_users/` directory
 
 ## Using Lambda as an API
 
@@ -37,7 +45,7 @@ Finally for this tutorial we'll be making use of another AWS service to act as a
 5. Choose **Create** to create your API Gateway
 6. Select the API you just created, and select **Routes**
 7. Click **Create**  to create a new route
-8. Select `PUT` for the method and enter `/user/{username}` for the path
+8. Select `GET` for the method and enter `/user/{username}` for the path
 9. Click **Create**
 10. Repeat steps 7, 8, and 9 for the following routes
     * `DELETE` request, with path `/user/{username}`
@@ -60,7 +68,16 @@ Now that we've created our routes, we'll need to connect API Gateway to our Lamb
 
 ## Connecting to API Gateway from React
 
-Now that we've got our backend up and running, let's look at the changes made to connect to it from our react site.
+Now that we've got our backend up and running, you'll have to make the following changes to get the site running.
+
+1. Click the API name on the left panel of the API Gateway page and copy the link under **invoke URL** 
+2. Update the `API_ENDPOINT` variable in the `src/profiles.js` file with the copied link
+3. Navigate to the CORS page for the API endpoint and click **Configure**
+4. Under the **Access-Control-Allow-Origin**, **Access-Control-Allow-Headers**, and **Access-Control-Allow-Methods** fields, type an astrix (*) and click **Add**
+5. Scroll to the bottom and click **Save**
+6. Finally, run `npm install` and `npm run dev` in the `Week_7` directory. This should run the site locally and allow you to connect to your database
+
+From last time, let's look at the changes made to connect to it from our react site.
 
 * `src/profiles.js` - this file has been modified to contain a series of calls to the API
 * `src/pages/Login.jsx`, `src/pages/Signup.jsx` - these files call a new function in the `profile.js` file to attempt to login/signup

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_ENDPOINT = "https://rlfieizsjg.execute-api.us-east-1.amazonaws.com"
+// TODO: Replace this with live endpoint
+const API_ENDPOINT = ""
 
 export const BLANK_USER = {
     "password": "",
