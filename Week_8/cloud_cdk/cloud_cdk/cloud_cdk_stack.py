@@ -63,7 +63,7 @@ class CloudCdkStack(Stack):
             id="cdk-cloud-codebuild-project",
             project_name="cdk-cloud-codebuild",
             source=github_connection,
-            build_spec=codebuild.BuildSpec.from_source_filename("Week_4/buildspec.yml"),
+            build_spec=codebuild.BuildSpec.from_source_filename("Week_8/buildspec.yml"),
             environment_variables={
                 'AWS_DEFAULT_REGION': codebuild.BuildEnvironmentVariable(value='us-east-1'),
                 'AWS_ACCOUNT_ID': codebuild.BuildEnvironmentVariable(value=ACCOUNT_ID),
@@ -76,27 +76,29 @@ class CloudCdkStack(Stack):
             role=codebuild_role
         )
 
-        # Creating CI/CD Pipeline
-        self.codepipeline = codepipeline.Pipeline(self, "cdk-cloud-code-pipeline")
-        self.codepipeline.add_stage(
-            stage_name="cdk-pipeline-pull-code",
-            actions=actions.GitHubSourceAction(
-                oauth_token=SecretValue.secrets_manager("cdk-cloud-token", json_field="token"),
-                owner=GITHUB_OWNER,
-                repo=GITHUB_REPO,
-            )
-        )
-        # TODO: Make sure that artifacts are passed forward
-        self.codepipeline.add_stage(
-            stage_name="cdk-pipeline-build",
-            actions=actions.CodeBuildAction(
-                action_name="cdk-pipeline-build-action",
-                project=self.codebuild,
-            )
-        )
-        self.codepipeline.add_stage(
-            stage_name="cdk-pipeline-eb-deploy",
-            actions=actions.ElasticBeanstalkDeployAction(
-                application_name=""
-            )
-        )
+        # # Creating CI/CD Pipeline
+        # self.codepipeline = codepipeline.Pipeline(self, "cdk-cloud-code-pipeline")
+        # self.codepipeline.add_stage(
+        #     stage_name="cdk-pipeline-pull-code",
+        #     actions=actions.GitHubSourceAction(
+        #         oauth_token=SecretValue.secrets_manager("cdk-cloud-token", json_field="token"),
+        #         owner=GITHUB_OWNER,
+        #         repo=GITHUB_REPO,
+        #     )
+        #     output=
+        #     action_name=""
+        # )
+        # # TODO: Make sure that artifacts are passed forward
+        # self.codepipeline.add_stage(
+        #     stage_name="cdk-pipeline-build",
+        #     actions=actions.CodeBuildAction(
+        #         action_name="cdk-pipeline-build-action",
+        #         project=self.codebuild,
+        #     )
+        # )
+        # self.codepipeline.add_stage(
+        #     stage_name="cdk-pipeline-eb-deploy",
+        #     actions=actions.ElasticBeanstalkDeployAction(
+        #         application_name=""
+        #     )
+        # )

@@ -9,7 +9,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG ./Week_4
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG ./Week_8
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG      
   post_build:
     commands:
@@ -19,4 +19,4 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: 'Week_4'
+  base-directory: 'Week_8'

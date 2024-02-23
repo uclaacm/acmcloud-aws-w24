@@ -1,0 +1,14 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+      "Name": "[ACCOUNT ID].dkr.ecr.us-east-1.amazonaws.com/[IMAGE REPO NAME]:latest",
+      "Update": "true"
+    },
+    "Ports": [
+      {
+        "ContainerPort": 80,
+        "HostPort": 8000
+      }
+    ],
+    "Logging": "/var/log/nginx"
+  }
