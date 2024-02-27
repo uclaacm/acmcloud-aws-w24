@@ -43,4 +43,6 @@ Now, we'll go ahead and spin up our resources with the following steps
 1. Open the `Week_8/cloud_cdk` folder in a terminal and run the command `cdk bootstrap --profile dev-admin`
 2. Run the command `cdk deploy --all --profile dev-admin` to create both our front and back end
 
+After the command has finished running, we can navigate to AWS and see that most of our resources have been created (in this case we are not using CodePipeline due CDK limitations). To spin up our site, simply trigger a new build with the CDK CodeBuild project and create a new Elastic Beanstalk instance with a Dockerfile, referencing the CDK ECR Repository. 
+
 Finally, we can clean up our resources by running the command `cdk destroy --all --profile dev-admin`
