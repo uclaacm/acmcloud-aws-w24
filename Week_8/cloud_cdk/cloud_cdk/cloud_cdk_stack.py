@@ -4,20 +4,18 @@ from aws_cdk import (
     aws_codebuild as codebuild,
     aws_ecr as ecr,
     aws_elasticbeanstalk as eb,
-    aws_apigatewayv2 as api,
-    aws_lambda,
-    aws_dynamodb as dynamodb,
     aws_iam as iam,
     Stack,
     SecretValue
 )
 from constructs import Construct
 
-ACCOUNT_ID = '603979437253'
-GITHUB_OWNER = 'SubramaniamSatyen'
-GITHUB_REPO = 'acmcloud-aws-w24'
+# TODO: Update these values
+ACCOUNT_ID = ''
+GITHUB_OWNER = ''
+GITHUB_REPO = ''
 
-class CloudCdkStack(Stack):
+class CloudFrontCdkStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -76,7 +74,33 @@ class CloudCdkStack(Stack):
             role=codebuild_role
         )
 
-        # # Creating CI/CD Pipeline
+        # # Create EB execution role
+        # eb_role = iam.Role(
+        #     self,   
+        #     'cdk-eb-role',
+        #     assumed_by=iam.ServicePrincipal("codebuild.amazonaws.com"),
+        #     managed_policies=[
+        #         iam.ManagedPolicy.from_aws_managed_policy_name("AWSElasticBeanstalkWebTier"),
+        #         iam.ManagedPolicy.from_aws_managed_policy_name("AWSElasticBeanstalkWorkerTier"),
+        #         iam.ManagedPolicy.from_aws_managed_policy_name("AWSElasticBeanstalkMulticontainerDocker"),
+        #     ]
+        # )
+        # eb_instance_profile = iam.CfnInstanceProfile(self, id='acm-cloud-instance-profile', roles=[eb_role.role_name])
+
+        # # TODO: Create default Elastic Beanstalk Docker Environment (here's a start)
+        # self.cfn_application = eb.CfnApplication(self, "acm-cloud-eb-app", application_name="acm-cloud-eb-app")
+
+        # self.cfn_environment = eb.CfnEnvironment(self, "acm-cloud-eb-env",
+        #     application_name=self.cfn_application.application_name,
+        #     option_settings=[eb.CfnEnvironment.OptionSettingProperty(
+        #         namespace="aws:autoscaling:launchconfiguration",
+        #         option_name="IamInstanceProfile",
+        #         value=eb_instance_profile.attr_arn
+        #     )],
+        #     solution_stack_name="64bit Amazon Linux 2023 v4.2.2 running Docker",
+        # )
+
+        # # TODO: Creating CI/CD Pipeline (here's a start)
         # self.codepipeline = codepipeline.Pipeline(self, "cdk-cloud-code-pipeline")
         # self.codepipeline.add_stage(
         #     stage_name="cdk-pipeline-pull-code",
