@@ -5,7 +5,7 @@ In this tutorial, we'll be translating the front end of our app to use AWS's Clo
 
 ## Setting up for Local Development
 
-In order to run our code locally, you'll need to have a working version of [Python](https://www.python.org/downloads/) and will need to install the AWS Python [SDK](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html) with python. We recommend creating a python virtual environment in the project directory and installing your dependencies there.
+In order to run our code locally, you'll need to have a working version of [Python](https://www.python.org/downloads/), will need to install the AWS [CLI](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html), and will need to install the `aws-cdk-lib` [library](https://docs.aws.amazon.com/cdk/v2/guide/work-with-cdk-python.html) with python. We recommend creating a python virtual environment in the project directory and installing your dependencies there.
 
 Once you've set up your local environment, you'll need to create a new AWS User to represent your local computer - this will allow your computer to make API calls to AWS (similarly to how you click buttons on the AWS console), and to create, edit, and delete services. 
 
@@ -37,6 +37,10 @@ Now that we've configured our local environment, we'll go ahead and configure ou
 
 1. Update the `ACCOUNT_ID`, `GITHUB_OWNER`, and `GITHUB_REPO` in the `Week_8/cloud_cdk/cloud_cdk/cloud_cdk_stack.py` file with your account details and forked version of this repo
 2. Update the `ACCOUNT_ID` in the `Week_8/cloud_cdk/app.py` folder with your account details
+3. Navigate to your github account and click `Developer Settings`. Then click on `Personal access tokens` and `Tokens (classic)`. Finally click `Generate new token (classic)` and copy the value
+4. Open the Secret Manager service in AWS and click **Store a new token**.
+5. Select **Other type of secret** 
+6. Give the secret key the value `cdk-cloud-token` and value from step 3. This will allow AWS's CodeBuild to connect to github.
 
 Now, we'll go ahead and spin up our resources with the following steps
 
